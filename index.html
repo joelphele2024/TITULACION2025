@@ -7,6 +7,9 @@
   <title>TITULACION 2025</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
   <style>
+    #nombre{
+      background-color: yellow;
+    }
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f4f6f9;
@@ -100,11 +103,11 @@
 
           <form id="loginForm" class="oculto-form">
             <div class="mb-3">
-              <label for="dni" class="form-label">DNI:</label>
+             <B><u><label for="dni" class="form-label">DNI:</label></u></B>
               <input type="text" id="dni" class="form-control" maxlength="8" placeholder="Ejemplo: 12345678" required>
             </div>
             <div class="mb-3">
-              <label for="fechaNac" class="form-label">Fecha de Nacimiento:</label>
+              <u><B><label for="fechaNac" class="form-label">Fecha de Nacimiento:</label></B></u>
               <input type="text" id="fechaNac" class="form-control" placeholder="Ejemplo: 08/04/1993" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Consultar Notas</button>
@@ -115,7 +118,7 @@
           </div>
 
           <div id="resultado" class="mt-4 d-none">
-            <h5 class="text-success mb-3">Datos del Participante</h5>
+           <B><u><h5 class="text-success mb-3">Datos del Postulante</h5></B></u>
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><strong>Nombre:</strong> <span id="nombre"></span></li>
               <li class="list-group-item"><strong>DNI:</strong> <span id="dniMostrar"></span></li>
