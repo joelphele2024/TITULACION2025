@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="cetpro.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TITULACION 2025</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #3c8dbc;
+    }
+
+    .btn-primary {
+      background-color: #3c8dbc;
+      border-color: #3c8dbc;
+    }
+
+    .btn-primary:hover {
+      background-color: #367fa9;
+    }
+
+    .nota-teorica,
+    .nota-practica {
+      font-size: 1.2rem;
+      font-weight: bold;
+      background-color: yellow;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .estado-aprobado {
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .aprobado {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .desaprobado {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .list-group-item strong {
+      color: #333;
+    }
+
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .loader {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .oculto {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h4 class="mb-0">Consulta de Notas</h4>
+          <small class="text-white">Examen de Titulación 2025 - I</small>
+        </div>
+        <div class="card-body p-4 position-relative">
+
+          <!-- Loader -->
+          <div id="loader" class="loader">
+            <img src="cetpro.png" alt="Cargando..." width="90">
+          </div>
+
+          <form id="loginForm" class="oculto-form">
+            <div class="mb-3">
+              <label for="dni" class="form-label">DNI:</label>
+              <input type="text" id="dni" class="form-control" maxlength="8" placeholder="Ejemplo: 12345678" required>
+            </div>
+            <div class="mb-3">
+              <label for="fechaNac" class="form-label">Fecha de Nacimiento:</label>
+              <input type="text" id="fechaNac" class="form-control" placeholder="Ejemplo: 08/04/1993" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Consultar Notas</button>
+          </form>
+
+          <div id="error" class="alert alert-danger mt-3 d-none" role="alert">
+            ⚠️ <span id="errorMsg"></span>
+          </div>
+
+          <div id="resultado" class="mt-4 d-none">
+            <h5 class="text-success mb-3">Datos del Participante</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Nombre:</strong> <span id="nombre"></span></li>
+              <li class="list-group-item"><strong>DNI:</strong> <span id="dniMostrar"></span></li>
+              <li class="list-group-item"><strong>Fecha de Nacimiento:</strong> <span id="fechaNacMostrar"></span></li>
+              <li class="list-group-item"><strong>Especialidad:</strong> <span id="especialidad"></span></li>
+              <li class="list-group-item">
+                <strong>Nota Teórica:</strong>
+                <span id="teorico" class="nota-teorica">-</span>
+                <span id="estadoTeorico" class="estado-aprobado ms-2"></span>
+              </li>
+              <li class="list-group-item">
+                <strong>Nota Práctica:</strong>
+                <span id="practico" class="nota-practica">-</span>
+                <span id="estadoPractico" class="estado-aprobado ms-2"></span>
+              </li>
+            </ul>
+            <button id="btnReiniciar" class="btn btn-secondary w-100 mt-3">Volver a Consultar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  © CETPRO Dionisia Herrera Alvarado | Examen de Titulación 2025
+</div>
+
+<script>
+  // Datos simulados basados en tu archivo Excel
+ const datosEstudiantes = [
+    { dni: "73237897", fechaNac: "07/10/2005", nombre: "SOTA HUILLCA, Bryant.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
+    { dni: "70789062", fechaNac: "05/01/1995", nombre: "ÑAUPARIN INUMA, Rland Nilsson.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
+    { dni: "71659234", fechaNac: "24/10/1993", nombre: "MESCCO HUILLCAHUA, Yomar Luis.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
+    { dni: "70923106", fechaNac: "29/05/1992", nombre: "CORNEJO BERRIO, Emer.", especialidad: "COCINA", teorico: "0", practico: "0" },
+    { dni: "76308393", fechaNac: "22/03/1999", nombre: "PILLCO HUARACHI, Cynthia Beatriz.", especialidad: "COCINA", teorico: "0", practico: "0" },
+    { dni: "76927415", fechaNac: "07/10/2000", nombre: "GOMEZ BELTRAN, Sintia consuelo.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "77016498", fechaNac: "20/05/1995", nombre: "HUARAC VALENCIA, Liz Carolina.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "77795204", fechaNac: "03/03/1998", nombre: "AGUILAR MAMANI, Ruth Mirian.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "77694204", fechaNac: "14/02/1996", nombre: "PUMA QUISPE, GUISELA.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "47286435", fechaNac: "28/07/1992", nombre: "CACERES QUISPE, Naby.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "45959850", fechaNac: "16/05/1989", nombre: "CRUZ RAFAEL, Juana.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "76670775", fechaNac: "20/02/1997", nombre: "BRAVO GUEVRA, Rosa Luz.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "63269538", fechaNac: "25/10/2003", nombre: "LAYME PEREZ, Yenifer Patricia.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "71211744", fechaNac: "03/05/1997", nombre: "QUISPE SALAS, Marcos Javier.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "40983364", fechaNac: "06/05/1980", nombre: "CORDOVA BAUTISTA, Miguel.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "61080234", fechaNac: "16/10/1997", nombre: "GARCIA GARCIA, Jhonstyn Freddy.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "47869950", fechaNac: "10/07/1993", nombre: "GORBEÑA AGÜERO, Peter.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "73803056", fechaNac: "05/07/1998", nombre: "MONROY MONROY, Marco Antonio.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "47974716", fechaNac: "10/10/1992", nombre: "OVIEDO QUISPE, Jano.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+    { dni: "72175023", fechaNac: "13/10/2005", nombre: "CRUZ CONDORI, Mayte Smith.", especialidad: "COSTURA Y ACABADOS", teorico: "0", practico: "0" },
+    { dni: "48879202", fechaNac: "26/09/1997", nombre: "QQUECCAÑO GALLEGOS, Renata.", especialidad: "APOYO ADMINISTRATIVO", teorico: "0", practico: "0" },
+    { dni: "46277701", fechaNac: "18/12/1987", nombre: "GALAN CAMPOS, Jandery del Pilar.", especialidad: "APOYO ADMINISTRATIVO", teorico: "0", practico: "0" },
+    { dni: "71131544", fechaNac: "28/11/1994", nombre: "AYUQUE PEREZ, Bettza.", especialidad: "APOYO ADMINISTRATIVO", teorico: "0", practico: "0" },
+    { dni: "61304008", fechaNac: "30/07/2003", nombre: "DIONICIO BALLADARES, Jhon Anthony.", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "47942803", fechaNac: "30/09/1992", nombre: "VERA CCAÑIHUA, Ines Cristina.", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "71248638", fechaNac: "23/01/2001", nombre: "PICHUTA MAMANI, Diego Eduardo.", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "76809994", fechaNac: "15/10/1995", nombre: "MONTOYA RODRIGUEZ, Evelyn Arlets.", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "72485087", fechaNac: "04/03/2006", nombre: "ESPINOZA HUAMANTUMBA,Lizbel Maria", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "48302143", fechaNac: "25/04/1993", nombre: "ORTIZ CHALLCO, Jose Alberto", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+    { dni: "47121836", fechaNac: "01/01/1992", nombre: "CCAHUANTICO CCAHUANTICO,Fredy", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" }
+  ];
+
+  const form = document.getElementById("loginForm");
+  const resultadoDiv = document.getElementById("resultado");
+  const btnReiniciar = document.getElementById("btnReiniciar");
+
+  function mostrarResultado() {
+    resultadoDiv.classList.remove("d-none");
+    form.classList.add("oculto");
+  }
+
+  function ocultarResultado() {
+    resultadoDiv.classList.add("d-none");
+    form.classList.remove("oculto");
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const loader = document.getElementById("loader");
+    const errorDiv = document.getElementById("error");
+    const errorMsg = document.getElementById("errorMsg");
+
+    const dni = document.getElementById("dni").value.trim();
+    const fechaNac = document.getElementById("fechaNac").value.trim().toUpperCase();
+
+    // Limpiar resultados anteriores
+    errorDiv.classList.add("d-none");
+    errorMsg.textContent = "";
+
+    // Mostrar loading
+    loader.style.display = "block";
+
+    // Simular demora de carga
+    setTimeout(() => {
+      const estudiante = datosEstudiantes.find(
+        item => item.dni === dni && item.fechaNac === fechaNac
+      );
+
+      if (estudiante) {
+        document.getElementById("nombre").textContent = estudiante.nombre;
+        document.getElementById("dniMostrar").textContent = estudiante.dni;
+        document.getElementById("fechaNacMostrar").textContent = estudiante.fechaNac;
+        document.getElementById("especialidad").textContent = estudiante.especialidad;
+
+        const teorico = parseInt(estudiante.teorico);
+        const practico = parseInt(estudiante.practico);
+
+        document.getElementById("teorico").textContent = teorico;
+        document.getElementById("practico").textContent = practico;
+
+        // Evaluar estado de aprobado/desaprobado
+        const estadoTeorico = document.getElementById("estadoTeorico");
+        const estadoPractico = document.getElementById("estadoPractico");
+
+        if (teorico >= 13) {
+          estadoTeorico.textContent = "Aprobado";
+          estadoTeorico.className = "estado-aprobado aprobado";
+        } else {
+          estadoTeorico.textContent = "Desaprobado";
+          estadoTeorico.className = "estado-aprobado desaprobado";
+        }
+
+        if (practico >= 13) {
+          estadoPractico.textContent = "Aprobado";
+          estadoPractico.className = "estado-aprobado aprobado";
+        } else {
+          estadoPractico.textContent = "Desaprobado";
+          estadoPractico.className = "estado-aprobado desaprobado";
+        }
+
+        mostrarResultado();
+      } else {
+        errorMsg.textContent = "DNI o Fecha de Nacimiento incorrectos.";
+        errorDiv.classList.remove("d-none");
+      }
+
+      // Ocultar loading
+      loader.style.display = "none";
+    }, 1000); // Duración del efecto de carga (en ms)
+  });
+
+  btnReiniciar.addEventListener("click", () => {
+    ocultarResultado();
+    document.getElementById("dni").value = "";
+    document.getElementById("fechaNac").value = "";
+  });
+</script>
+
+</body>
+</html>
