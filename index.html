@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="CETPRO.png">
+  <link rel="icon" href="cetpro.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>TITULACION 2025</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"  rel="stylesheet">
@@ -98,7 +98,7 @@
 
           <!-- Loader -->
           <div id="loader" class="loader">
-            <img src="CETPRO.png" alt="Cargando..." width="90">
+            <img src="cetpro.png" alt="Cargando..." width="90">
           </div>
 
           <form id="loginForm" class="oculto-form">
@@ -151,17 +151,39 @@
   // Datos simulados basados en tu archivo Excel
  const datosEstudiantes = [
     { dni: "73237897", fechaNac: "07/10/2005", nombre: "SOTA HUILLCA, Bryant.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
-    { dni: "70789062", fechaNac: "05/01/1995", nombre: "ÑAUPARIN INUMA, Rland Nilsson.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
+    { dni: "70789062", fechaNac: "05/01/1995", nombre: "ÑAUPARIN INUMA, Roland Nilsson.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
     { dni: "71659234", fechaNac: "24/10/1993", nombre: "MESCCO HUILLCAHUA, Yomar Luis.", especialidad: "TOPOGRAFIA", teorico: "0", practico: "0" },
     { dni: "70923106", fechaNac: "29/05/1992", nombre: "CORNEJO BERRIO, Emer.", especialidad: "COCINA", teorico: "0", practico: "0" },
     { dni: "76308393", fechaNac: "22/03/1999", nombre: "PILLCO HUARACHI, Cynthia Beatriz.", especialidad: "COCINA", teorico: "0", practico: "0" },
     { dni: "76927415", fechaNac: "07/10/2000", nombre: "GOMEZ BELTRAN, Sintia consuelo.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+
+
+{ dni: "44858518", fechaNac: "0", nombre: "BERRIOS QUISPE, Hermenegilda.", especialidad: "COCINA", teorico: "0", practico: "0" },
+{ dni: "70022964", fechaNac: "0", nombre: "ARIAS ZURITA, Yerlit Liliana.", especialidad: "COCINA", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "TORRES PARICAHUA, Edu Sidiani.", especialidad: "COCINA", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "VELASQUEZ GIL, Roy.", especialidad: "COCINA", teorico: "0", practico: "0" },
+
+
+{ dni: "73986284", fechaNac: "0", nombre: "QUISPESAYHUA MAMANI, Magdalena", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+{ dni: "70022964", fechaNac: "0", nombre: "CHOQUE COLLADO, Doris.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "VILA USCAMAYTA, Yeni Angeli", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "MALDONADO CHAVEZ, Melani Noami.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "TINOCO HUALLPAMAYTA, Karent Mayte", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+
+
+{ dni: "74883455", fechaNac: "0", nombre: "CCOA VELASQUEZ, Yuliana", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+{ dni: "0", fechaNac: "0", nombre: "TRINIDAD SARMIENTO, Nerit Zaida", especialidad: "SOPORTE TECNICO Y OPERACIÓN DEL CENTRO DE COMPUTO", teorico: "0", practico: "0" },
+
+
+{ dni: "04822605", fechaNac: "0", nombre: "CARDENAS CORAL, Diana", especialidad: "APOYO ADMINISTRATIVO", teorico: "0", practico: "0" },
+{ dni: "72973239", fechaNac: "0", nombre: "IÑAPI MURAYARI, Elio Andres", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
+
     { dni: "77016498", fechaNac: "20/05/1995", nombre: "HUARAC VALENCIA, Liz Carolina.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "77795204", fechaNac: "03/03/1998", nombre: "AGUILAR MAMANI, Ruth Mirian.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "77694204", fechaNac: "14/02/1996", nombre: "PUMA QUISPE, GUISELA.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "47286435", fechaNac: "28/07/1992", nombre: "CACERES QUISPE, Naby.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "45959850", fechaNac: "16/05/1989", nombre: "CRUZ RAFAEL, Juana.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
-    { dni: "76670775", fechaNac: "20/02/1997", nombre: "BRAVO GUEVRA, Rosa Luz.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
+    { dni: "76670775", fechaNac: "20/02/1997", nombre: "BRAVO GUEVARA, Rosa Luz.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "63269538", fechaNac: "25/10/2003", nombre: "LAYME PEREZ, Yenifer Patricia.", especialidad: "ESTILISMO", teorico: "0", practico: "0" },
     { dni: "71211744", fechaNac: "03/05/1997", nombre: "QUISPE SALAS, Marcos Javier.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
     { dni: "40983364", fechaNac: "06/05/1980", nombre: "CORDOVA BAUTISTA, Miguel.", especialidad: "MANTENIMIENTO DE SISTEMAS ELECTRICOS", teorico: "0", practico: "0" },
